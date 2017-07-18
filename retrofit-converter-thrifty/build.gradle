@@ -1,6 +1,8 @@
 apply plugin: 'java'
+apply plugin: 'com.novoda.bintray-release'
 
-sourceCompatibility = 1.7
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
 
 group 'co.infinum'
 version '0.9.0'
@@ -20,4 +22,15 @@ dependencies {
     testCompile 'org.assertj:assertj-core:3.8.0'
     testCompile 'junit:junit:4.12'
     compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+}
+
+publish {
+    userOrg = 'infinum'
+    groupId = project.group
+    artifactId = 'retrofit-converter-thrifty'
+    publishVersion = project.version
+    desc = 'Retrofit converter for Thrifty implementation of Apache Thrift'
+    website = 'https://github.com/infinum/thrifty-retrofit-converter'
+    licences = ['Apache-2.0']
+    repoName = 'android'
 }
