@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/retrofit-converter-thrifty.iml" filepath="$PROJECT_DIR$/.idea/modules/retrofit-converter-thrifty.iml" group="retrofit-converter-thrifty" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/retrofit-converter-thrifty/retrofit-converter-thrifty_main.iml" filepath="$PROJECT_DIR$/.idea/modules/retrofit-converter-thrifty/retrofit-converter-thrifty_main.iml" group="retrofit-converter-thrifty" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/retrofit-converter-thrifty/retrofit-converter-thrifty_test.iml" filepath="$PROJECT_DIR$/.idea/modules/retrofit-converter-thrifty/retrofit-converter-thrifty_test.iml" group="retrofit-converter-thrifty" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/thrifty-converter.iml" filepath="$PROJECT_DIR$/.idea/modules/thrifty-converter.iml" />
+    </modules>
+  </component>
+</project>

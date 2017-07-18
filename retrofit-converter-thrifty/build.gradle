@@ -1,0 +1,23 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+
+group 'co.infinum'
+version '0.9.0'
+
+ext {
+    thrifty_version = '0.4.2'
+    retrofit_version = '2.3.0'
+    okhttp_version = '3.8.1'
+    okio_version = '1.13'
+}
+
+dependencies {
+    compile "com.microsoft.thrifty:thrifty-runtime:$thrifty_version"
+    compile "com.squareup.okio:okio:$okio_version"
+    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
+    testCompile "com.squareup.okhttp3:mockwebserver:$okhttp_version"
+    testCompile 'org.assertj:assertj-core:3.8.0'
+    testCompile 'junit:junit:4.12'
+    compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+}
