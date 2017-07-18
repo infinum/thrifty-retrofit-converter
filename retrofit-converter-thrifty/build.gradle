@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'net.ltgt.errorprone'
 apply plugin: 'com.novoda.bintray-release'
 
 sourceCompatibility = JavaVersion.VERSION_1_7
