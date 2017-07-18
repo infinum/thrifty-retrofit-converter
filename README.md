@@ -20,7 +20,7 @@ compile 'co.infinum:retrofit-converter-thrifty:0.9.0'
 
 ```java
 Retrofit retrofit = new Retrofit.Builder()
-    .baseUrl("https:your.server.com/api/")
+    .baseUrl("https://your.server.com/api/")
     .addConverterFactory(ThriftyConverterFactory.create(ProtocolType.COMPACT))
     .build();
 ```
