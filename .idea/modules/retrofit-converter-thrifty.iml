@@ -5,6 +5,7 @@
     <content url="file://$MODULE_DIR$/../../retrofit-converter-thrifty">
       <excludeFolder url="file://$MODULE_DIR$/../../retrofit-converter-thrifty/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../retrofit-converter-thrifty/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../../retrofit-converter-thrifty/out" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
