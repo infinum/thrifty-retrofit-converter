@@ -10,7 +10,7 @@ It supports `Binary` and `Compact` Thrift protocols.
 
 ## Usage
 
-Add the library as a dependency yo your `build.gradle` to automatically download it from jcenter.
+Add the library as a dependency to your `build.gradle` to automatically download it from jcenter.
 
 ```groovy
 compile 'co.infinum:retrofit-converter-thrifty:0.9.0'
