@@ -1,0 +1,29 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/code
+
+    docker:
+      - image: circleci/openjdk:8-jdk
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum "retrofit-converter-thrifty/build.gradle" }}
+
+      - run:
+          name: Download Dependencies
+          command: ./gradlew dependencies
+
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum "retrofit-converter-thrifty/build.gradle" }}
+
+      - run:
+          name: Run Tests
+          command: ./gradlew check
+
+      - store_test_results:
+          path: retrofit-converter-thrifty/build/test-results
