@@ -25,5 +25,9 @@ jobs:
           name: Run Tests
           command: ./gradlew check
 
+      - run:
+          name: Upload Test Coverage
+          command: bash <(curl -s https://codecov.io/bash)
+
       - store_test_results:
           path: retrofit-converter-thrifty/build/test-results
