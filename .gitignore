@@ -1,13 +1,9 @@
-# Created by https://www.gitignore.io/api/osx,linux,gradle,intellij
-
-### Intellij ###
+### Intellij+iml ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff:
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/dictionaries
+.idea/
 
 # Sensitive or high-churn files:
 .idea/**/dataSources/
@@ -17,10 +13,6 @@
 .idea/**/sqlDataSources.xml
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
-
-# Gradle:
-.idea/**/gradle.xml
-.idea/**/libraries
 
 # CMake
 cmake-build-debug/
@@ -45,22 +37,22 @@ atlassian-ide-plugin.xml
 # Cursive Clojure plugin
 .idea/replstate.xml
 
+# Ruby plugin and RubyMine
+/.rakeTasks
+
 # Crashlytics plugin (for Android Studio and IntelliJ)
 com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-### Intellij Patch ###
-# Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
+### Intellij+iml Patch ###
+# Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023
 
-# *.iml
-# modules.xml
-# .idea/misc.xml
-# *.ipr
-
-# Sonarlint plugin
-.idea/sonarlint
+*.iml
+modules.xml
+.idea/misc.xml
+*.ipr
 
 ### Linux ###
 *~
@@ -106,8 +98,7 @@ Temporary Items
 
 ### Gradle ###
 .gradle
-/build/
-/*/build/
+**/build/
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -121,4 +112,5 @@ gradle-app.setting
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
 
-# End of https://www.gitignore.io/api/osx,linux,gradle,intellij
+# Local configuration file (sdk path, etc)
+local.properties
