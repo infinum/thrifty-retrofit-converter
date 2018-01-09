@@ -69,44 +69,56 @@ public final class ThriftyConverterFactoryTest {
 
     @Test
     public void serializeAndDeserializeBinary() throws IOException, InterruptedException {
-        serializeAndDeserialize(ProtocolType.BINARY, "(519) 867-5309", "CwABAAAADig1MTkpIDg2Ny01MzA5AA==");
+        serializeAndDeserialize(ProtocolType.BINARY, "(519) 867-5309", "CwABAAAADig1MTkpIDg2Ny01MzA5AA==", true);
     }
 
     @Test
     public void serializeAndDeserializeCompact() throws IOException, InterruptedException {
-        serializeAndDeserialize(ProtocolType.COMPACT, "(519) 867-5309", "GA4oNTE5KSA4NjctNTMwOQA=");
+        serializeAndDeserialize(ProtocolType.COMPACT, "(519) 867-5309", "GA4oNTE5KSA4NjctNTMwOQA=", true);
     }
 
-    private void serializeAndDeserialize(ProtocolType type, String number, String base64Body) throws IOException, InterruptedException {
-        Service service = createService(type);
-        ByteString encoded = ByteString.decodeBase64(base64Body);
-        server.enqueue(new MockResponse().setBody(new Buffer().write(encoded)));
+    @Test
+    public void serializeAndDeserializeJson() throws IOException, InterruptedException {
+        serializeAndDeserialize(ProtocolType.JSON, "(519) 867-5309", "{\"1\":{\"str\":\"(519) 867-5309\"}}", false);
+    }
 
-        Phone phone = new Phone.Builder().number(number).build();
+    private void serializeAndDeserialize(ProtocolType type, String phoneNumber, String body, boolean isBodyBase64) throws IOException, InterruptedException {
+        Service service = createService(type);
+
+        ByteString bodyByteString = isBodyBase64 ? ByteString.decodeBase64(body) : ByteString.encodeUtf8(body);
+        server.enqueue(new MockResponse().setBody(new Buffer().write(bodyByteString)));
+
+        Phone phone = new Phone.Builder().number(phoneNumber).build();
         Call<Phone> call = service.post(phone);
         Response<Phone> response = call.execute();
-        Phone body = response.body();
-        assertThat(body.number).isEqualTo(number);
+        Phone bodyPhone = response.body();
+        assertThat(bodyPhone.number).isEqualTo(phoneNumber);
 
         RecordedRequest request = server.takeRequest();
-        assertThat(request.getBody().readByteString()).isEqualTo(encoded);
+
+        assertThat(request.getBody().readByteString()).isEqualTo(bodyByteString);
         assertThat(request.getHeader("Content-Type")).isEqualTo("application/x-thrift");
     }
 
     @Test
     public void deserializeWrongClassBinary() throws IOException {
-        deserializeWrongClass(ProtocolType.BINARY, "CwABAAAADig1MTkpIDg2Ny01MzA5AA==");
+        deserializeWrongClass(ProtocolType.BINARY, "CwABAAAADig1MTkpIDg2Ny01MzA5AA==", true);
     }
 
     @Test
     public void deserializeWrongClassCompact() throws IOException {
-        deserializeWrongClass(ProtocolType.COMPACT, "GA4oNTE5KSA4NjctNTMwOQA=");
+        deserializeWrongClass(ProtocolType.COMPACT, "GA4oNTE5KSA4NjctNTMwOQA=", true);
     }
 
-    private void deserializeWrongClass(ProtocolType type, String base64Body) throws IOException {
+    @Test
+    public void deserializeWrongClassJson() throws IOException {
+        deserializeWrongClass(ProtocolType.JSON, "{\"1\":{\"str\":\"(519) 867-5309\"}}", false);
+    }
+
+    private void deserializeWrongClass(ProtocolType type, String body, boolean isBodyBase64) throws IOException {
         Service service = createService(type);
-        ByteString encoded = ByteString.decodeBase64(base64Body);
-        server.enqueue(new MockResponse().setBody(new Buffer().write(encoded)));
+        ByteString bodyByteString = isBodyBase64 ? ByteString.decodeBase64(body) : ByteString.encodeUtf8(body);
+        server.enqueue(new MockResponse().setBody(new Buffer().write(bodyByteString)));
 
         try {
             service.wrongClass();
@@ -125,18 +137,23 @@ public final class ThriftyConverterFactoryTest {
 
     @Test
     public void deserializeWrongTypeBinary() throws IOException {
-        deserializeWrongType(ProtocolType.BINARY, "CwABAAAADig1MTkpIDg2Ny01MzA5AA==");
+        deserializeWrongType(ProtocolType.BINARY, "CwABAAAADig1MTkpIDg2Ny01MzA5AA==", true);
     }
 
     @Test
     public void deserializeWrongTypeCompact() throws IOException {
-        deserializeWrongType(ProtocolType.COMPACT, "GA4oNTE5KSA4NjctNTMwOQA=");
+        deserializeWrongType(ProtocolType.COMPACT, "GA4oNTE5KSA4NjctNTMwOQA=", true);
     }
 
-    private void deserializeWrongType(ProtocolType type, String base64Body) throws IOException {
+    @Test
+    public void deserializeWrongTypeJson() throws IOException {
+        deserializeWrongType(ProtocolType.JSON, "{\"1\":{\"str\":\"(519) 867-5309\"}}", false);
+    }
+
+    private void deserializeWrongType(ProtocolType type, String body, boolean isBodyBase64) throws IOException {
         Service service = createService(type);
-        ByteString encoded = ByteString.decodeBase64(base64Body);
-        server.enqueue(new MockResponse().setBody(new Buffer().write(encoded)));
+        ByteString bodyByteString = isBodyBase64 ? ByteString.decodeBase64(body) : ByteString.encodeUtf8(body);
+        server.enqueue(new MockResponse().setBody(new Buffer().write(bodyByteString)));
 
         try {
             service.wrongType();
@@ -178,6 +195,20 @@ public final class ThriftyConverterFactoryTest {
             call.execute();
             fail();
         } catch (IllegalArgumentException ignored) {
+        }
+    }
+
+    @Test
+    public void deserializeWrongValueJson() throws IOException {
+        Service service = createService(ProtocolType.JSON);
+        ByteString encoded = ByteString.encodeUtf8("{x}");
+        server.enqueue(new MockResponse().setBody(new Buffer().write(encoded)));
+
+        Call<?> call = service.get();
+        try {
+            call.execute();
+            fail();
+        } catch (ProtocolException ignored) {
         }
     }
 }

@@ -2,6 +2,7 @@ package co.infinum.thrifty;
 
 import com.microsoft.thrifty.protocol.BinaryProtocol;
 import com.microsoft.thrifty.protocol.CompactProtocol;
+import com.microsoft.thrifty.protocol.JsonProtocol;
 import com.microsoft.thrifty.protocol.Protocol;
 import com.microsoft.thrifty.transport.Transport;
 
@@ -13,7 +14,8 @@ import com.microsoft.thrifty.transport.Transport;
  */
 public enum ProtocolType {
     BINARY("binary"),
-    COMPACT("compact");
+    COMPACT("compact"),
+    JSON("json");
 
     private final String type;
 
@@ -27,6 +29,8 @@ public enum ProtocolType {
                 return new BinaryProtocol(transport);
             case COMPACT:
                 return new CompactProtocol(transport);
+            case JSON:
+                return new JsonProtocol(transport);
             default:
                 throw new RuntimeException("Unsupported protocol type: " + type);
         }

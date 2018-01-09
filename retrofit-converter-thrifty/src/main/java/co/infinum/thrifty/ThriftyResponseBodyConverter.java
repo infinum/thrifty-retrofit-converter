@@ -2,6 +2,7 @@ package co.infinum.thrifty;
 
 import com.microsoft.thrifty.Adapter;
 import com.microsoft.thrifty.StructBuilder;
+import com.microsoft.thrifty.ThriftException;
 import com.microsoft.thrifty.protocol.Protocol;
 import com.microsoft.thrifty.transport.BufferTransport;
 import com.microsoft.thrifty.transport.Transport;
@@ -30,6 +31,8 @@ final class ThriftyResponseBodyConverter<T> implements Converter<ResponseBody, T
             Transport transport = new BufferTransport(buffer);
             Protocol protocol = ProtocolType.createProtocol(protocolType, transport);
             return adapter.read(protocol);
+        } catch (ThriftException e) {
+            throw new RuntimeException(e);
         } finally {
             value.close();
         }

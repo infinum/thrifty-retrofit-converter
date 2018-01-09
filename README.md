@@ -6,14 +6,14 @@
 A `Retrofit converter` implementation using [Thrifty](https://github.com/Microsoft/thrifty) for
 (de)serialization of Apache Thrift requests and responses.
 
-It supports `Binary` and `Compact` Thrift protocols.
+It supports `Binary`, `Compact` and `Json` Thrift protocols.
 
 ## Usage
 
 Add the library as a dependency to your `build.gradle` to automatically download it from jcenter.
 
 ```groovy
-compile 'co.infinum:retrofit-converter-thrifty:0.9.0'
+compile 'co.infinum:retrofit-converter-thrifty:0.9.1'
 ```
 
 ... and add the converter factory when you create the `Retrofit` object.
