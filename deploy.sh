@@ -15,7 +15,7 @@ if [ ! -z "$4" ]; then
     tag_message="$4"
 fi
 
-./gradlew clean build generatePomFileForMavenPublication bintrayUpload -PbintrayUser=${username} -PbintrayKey=${api_key} -PdryRun=false && \
+./gradlew clean build bintrayUpload -PbintrayUser=${username} -PbintrayKey=${api_key} -PdryRun=false && \
 git tag -a "${version}" -m "${tag_message}" && \
 git push --tags
 
