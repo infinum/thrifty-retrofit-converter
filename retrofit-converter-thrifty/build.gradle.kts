@@ -16,7 +16,7 @@ version = "0.9.2"
 
 object Versions {
     const val thrifty_version = "0.4.3"
-    const val retrofit_version = "2.4.0"
+    const val retrofit_version = "2.5.0"
     const val okhttp_version = "3.14.2"
     const val okio_version = "2.2.2"
 }
