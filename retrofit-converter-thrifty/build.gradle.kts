@@ -52,4 +52,5 @@ configure<PublishExtension> {
     desc = "Retrofit converter for Thrifty implementation of Apache Thrift"
     website = "https://github.com/infinum/thrifty-retrofit-converter"
     repoName = "android"
+    setLicences("Apache-2.0")
 }
