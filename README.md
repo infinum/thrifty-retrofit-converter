@@ -7,7 +7,7 @@ A `Retrofit converter` implementation using [Thrifty](https://github.com/Microso
 (de)serialization of Apache Thrift requests and responses.
 
 It supports `Binary`, `Compact` and `Json` Thrift protocols.
-It supports Thrifty models generated in both Java and Kotlin.
+It supports Thrifty models generated in both `Java` and `Kotlin`.
 
 ## Usage
 
