@@ -27,6 +27,16 @@ Retrofit retrofit = new Retrofit.Builder()
 
 We also maintain a [changelog](CHANGELOG.md).
 
+## Generating new files with thrifty compiler
+
+In case source files need to be generated from .thrift files using a different version of the thrifty compiler, use these commands:
+
+```shell
+java -jar thrifty-compiler-1.0.0-all.jar --out=retrofit-converter-thrifty/src/test/java/ --lang=java retrofit-converter-thrifty/src/test/resources/phone.thrift
+java -jar thrifty-compiler-1.0.0-all.jar --out=retrofit-converter-thrifty/src/test/java/ --lang=kotlin --kt-file-per-type retrofit-converter-thrifty/src/test/resources/phone.thrift
+
+```
+
 ## Deploying a new version
 
 To deploy a new version to bintray, use `deploy.sh`:

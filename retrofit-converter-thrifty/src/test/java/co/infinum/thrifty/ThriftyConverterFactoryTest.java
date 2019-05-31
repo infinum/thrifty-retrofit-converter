@@ -44,10 +44,16 @@ import static org.junit.Assert.fail;
 public final class ThriftyConverterFactoryTest {
     interface Service {
         @GET("/")
-        Call<Phone> get();
+        Call<co.infinum.thrifty.java.Phone> get();
 
         @POST("/")
-        Call<Phone> post(@Body Phone impl);
+        Call<co.infinum.thrifty.java.Phone> post(@Body co.infinum.thrifty.java.Phone impl);
+
+        @GET("/")
+        Call<co.infinum.thrifty.kotlin.Phone> getKt();
+
+        @POST("/")
+        Call<co.infinum.thrifty.kotlin.Phone> postKt(@Body co.infinum.thrifty.kotlin.Phone impl);
 
         @GET("/")
         Call<String> wrongClass();
@@ -70,16 +76,19 @@ public final class ThriftyConverterFactoryTest {
     @Test
     public void serializeAndDeserializeBinary() throws IOException, InterruptedException {
         serializeAndDeserialize(ProtocolType.BINARY, "(519) 867-5309", "CwABAAAADig1MTkpIDg2Ny01MzA5AA==", true);
+        serializeAndDeserializeKt(ProtocolType.BINARY, "(519) 867-5309", "CwABAAAADig1MTkpIDg2Ny01MzA5AA==", true);
     }
 
     @Test
     public void serializeAndDeserializeCompact() throws IOException, InterruptedException {
         serializeAndDeserialize(ProtocolType.COMPACT, "(519) 867-5309", "GA4oNTE5KSA4NjctNTMwOQA=", true);
+        serializeAndDeserializeKt(ProtocolType.COMPACT, "(519) 867-5309", "GA4oNTE5KSA4NjctNTMwOQA=", true);
     }
 
     @Test
     public void serializeAndDeserializeJson() throws IOException, InterruptedException {
         serializeAndDeserialize(ProtocolType.JSON, "(519) 867-5309", "{\"1\":{\"str\":\"(519) 867-5309\"}}", false);
+        serializeAndDeserializeKt(ProtocolType.JSON, "(519) 867-5309", "{\"1\":{\"str\":\"(519) 867-5309\"}}", false);
     }
 
     private void serializeAndDeserialize(ProtocolType type, String phoneNumber, String body, boolean isBodyBase64) throws IOException, InterruptedException {
@@ -88,10 +97,28 @@ public final class ThriftyConverterFactoryTest {
         ByteString bodyByteString = isBodyBase64 ? ByteString.decodeBase64(body) : ByteString.encodeUtf8(body);
         server.enqueue(new MockResponse().setBody(new Buffer().write(bodyByteString)));
 
-        Phone phone = new Phone.Builder().number(phoneNumber).build();
-        Call<Phone> call = service.post(phone);
-        Response<Phone> response = call.execute();
-        Phone bodyPhone = response.body();
+        co.infinum.thrifty.java.Phone phone = new co.infinum.thrifty.java.Phone.Builder().number(phoneNumber).build();
+        Call<co.infinum.thrifty.java.Phone> call = service.post(phone);
+        Response<co.infinum.thrifty.java.Phone> response = call.execute();
+        co.infinum.thrifty.java.Phone bodyPhone = response.body();
+        assertThat(bodyPhone.number).isEqualTo(phoneNumber);
+
+        RecordedRequest request = server.takeRequest();
+
+        assertThat(request.getBody().readByteString()).isEqualTo(bodyByteString);
+        assertThat(request.getHeader("Content-Type")).isEqualTo("application/x-thrift");
+    }
+
+    private void serializeAndDeserializeKt(ProtocolType type, String phoneNumber, String body, boolean isBodyBase64) throws IOException, InterruptedException {
+        Service service = createService(type);
+
+        ByteString bodyByteString = isBodyBase64 ? ByteString.decodeBase64(body) : ByteString.encodeUtf8(body);
+        server.enqueue(new MockResponse().setBody(new Buffer().write(bodyByteString)));
+
+        co.infinum.thrifty.kotlin.Phone phone = new co.infinum.thrifty.kotlin.Phone.Builder().number(phoneNumber).build();
+        Call<co.infinum.thrifty.kotlin.Phone> call = service.postKt(phone);
+        Response<co.infinum.thrifty.kotlin.Phone> response = call.execute();
+        co.infinum.thrifty.kotlin.Phone bodyPhone = response.body();
         assertThat(bodyPhone.number).isEqualTo(phoneNumber);
 
         RecordedRequest request = server.takeRequest();

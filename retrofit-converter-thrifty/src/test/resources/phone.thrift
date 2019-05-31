@@ -1,4 +1,4 @@
-namespace java retrofit2.converter.thrifty
+namespace java co.infinum.thrifty.java
 
 struct Phone {
     1: optional string number
