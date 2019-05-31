@@ -7,13 +7,14 @@ A `Retrofit converter` implementation using [Thrifty](https://github.com/Microso
 (de)serialization of Apache Thrift requests and responses.
 
 It supports `Binary`, `Compact` and `Json` Thrift protocols.
+It supports Thrifty models generated in both Java and Kotlin.
 
 ## Usage
 
 Add the library as a dependency to your `build.gradle` to automatically download it from jcenter.
 
 ```groovy
-compile 'co.infinum:retrofit-converter-thrifty:0.9.1'
+compile 'co.infinum:retrofit-converter-thrifty:1.0.0'
 ```
 
 ... and add the converter factory when you create the `Retrofit` object.
