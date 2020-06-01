@@ -20,6 +20,7 @@
  */
 package co.infinum.thrifty;
 
+import co.infinum.thrifty.kotlin.BrokenPhone;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -36,6 +37,7 @@ import retrofit2.http.POST;
 
 import java.io.IOException;
 import java.net.ProtocolException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -56,10 +58,21 @@ public final class ThriftyConverterFactoryTest {
         Call<co.infinum.thrifty.kotlin.Phone> postKt(@Body co.infinum.thrifty.kotlin.Phone impl);
 
         @GET("/")
-        Call<String> wrongClass();
+        Call<String> getWrongClass();
 
         @GET("/")
-        Call<List<String>> wrongType();
+        Call<List<String>> getWrongType();
+
+        @POST("/")
+        Call<String> postWrongClass(@Body String body);
+
+        @POST("/")
+        Call<List<String>> postWrongType(@Body List<String> body);
+    }
+
+    interface BrokenService {
+        @GET("/")
+        Call<BrokenPhone> get();
     }
 
     @Rule
@@ -128,6 +141,39 @@ public final class ThriftyConverterFactoryTest {
     }
 
     @Test
+    public void serializeWrongClassBinary() throws IOException {
+        serializeWrongClass(ProtocolType.BINARY);
+    }
+
+    @Test
+    public void serializeWrongClassCompact() throws IOException {
+        serializeWrongClass(ProtocolType.COMPACT);
+    }
+
+    @Test
+    public void serializeWrongClassJson() throws IOException {
+        serializeWrongClass(ProtocolType.JSON);
+    }
+
+    private void serializeWrongClass(ProtocolType type) throws IOException {
+        Service service = createService(type);
+
+        try {
+            service.postWrongClass("string");
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertThat(e).hasMessage(""
+                    + "Unable to create @Body converter for class java.lang.String (parameter #1)\n"
+                    + "    for method Service.postWrongClass");
+            assertThat(e.getCause()).hasMessageStartingWith(""
+                    + "Could not locate RequestBody converter for class java.lang.String.\n"
+                    + "  Tried:\n"
+                    + "   * retrofit2.BuiltInConverters\n"
+                    + "   * co.infinum.thrifty.ThriftyConverterFactory");
+        }
+    }
+
+    @Test
     public void deserializeWrongClassBinary() throws IOException {
         deserializeWrongClass(ProtocolType.BINARY, "CwABAAAADig1MTkpIDg2Ny01MzA5AA==", true);
     }
@@ -148,14 +194,48 @@ public final class ThriftyConverterFactoryTest {
         server.enqueue(new MockResponse().setBody(new Buffer().write(bodyByteString)));
 
         try {
-            service.wrongClass();
+            service.getWrongClass();
             fail();
         } catch (IllegalArgumentException e) {
             assertThat(e).hasMessage(""
                     + "Unable to create converter for class java.lang.String\n"
-                    + "    for method Service.wrongClass");
+                    + "    for method Service.getWrongClass");
             assertThat(e.getCause()).hasMessageStartingWith(""
                     + "Could not locate ResponseBody converter for class java.lang.String.\n"
+                    + "  Tried:\n"
+                    + "   * retrofit2.BuiltInConverters\n"
+                    + "   * co.infinum.thrifty.ThriftyConverterFactory");
+        }
+    }
+
+    @Test
+    public void serializeWrongTypeBinary() throws IOException {
+        serializeWrongType(ProtocolType.BINARY);
+    }
+
+    @Test
+    public void serializeWrongTypeCompact() throws IOException {
+        serializeWrongType(ProtocolType.COMPACT);
+    }
+
+    @Test
+    public void serializeWrongTypeJson() throws IOException {
+        serializeWrongType(ProtocolType.JSON);
+    }
+
+    private void serializeWrongType(ProtocolType type) throws IOException {
+        Service service = createService(type);
+
+        try {
+            List<String> body = new ArrayList<>();
+            service.postWrongType(body);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertThat(e).hasMessage(""
+                    + "Unable to create @Body converter for java.util.List<java.lang.String> (parameter #1)\n"
+                    + "    for method Service.postWrongType");
+            assertThat(e.getCause()).hasMessageStartingWith(""
+                    + "Could not locate RequestBody converter for java.util.List<java.lang.String>.\n"
                     + "  Tried:\n"
                     + "   * retrofit2.BuiltInConverters\n"
                     + "   * co.infinum.thrifty.ThriftyConverterFactory");
@@ -183,12 +263,12 @@ public final class ThriftyConverterFactoryTest {
         server.enqueue(new MockResponse().setBody(new Buffer().write(bodyByteString)));
 
         try {
-            service.wrongType();
+            service.getWrongType();
             fail();
         } catch (IllegalArgumentException e) {
             assertThat(e).hasMessage(""
                     + "Unable to create converter for java.util.List<java.lang.String>\n"
-                    + "    for method Service.wrongType");
+                    + "    for method Service.getWrongType");
             assertThat(e.getCause()).hasMessageStartingWith(""
                     + "Could not locate ResponseBody converter for java.util.List<java.lang.String>.\n"
                     + "  Tried:\n"
@@ -238,4 +318,25 @@ public final class ThriftyConverterFactoryTest {
         } catch (ProtocolException ignored) {
         }
     }
+
+    @Test
+    public void generatedClassWithoutAdapter() throws IOException {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(server.url("/"))
+                .addConverterFactory(ThriftyConverterFactory.create(ProtocolType.BINARY))
+                .build();
+        BrokenService brokenService = retrofit.create(BrokenService.class);
+
+        try {
+            brokenService.get();
+            fail();
+        } catch (IllegalArgumentException ignored) {
+        }
+    }
+
+    @Test
+    public void protocolType() throws IOException {
+        assertThat(ProtocolType.BINARY.type()).isEqualTo("binary");
+    }
+
 }

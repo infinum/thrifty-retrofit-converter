@@ -1,6 +1,15 @@
 Changelog
 =========
 
+## Version 2.0.0
+
+_2020-06-01_
+
+- use [Thrifty 2.0.1](https://github.com/microsoft/thrifty/blob/master/CHANGELOG.md)
+- use Okio 2.6.0, OkHttp 4.7.2, Retrofit 2.9.0, Kotlin 1.3.71
+
+Note that OkHttp raised the [Android minSDK to API 21 with version 3.13](https://cashapp.github.io/2019-02-05/okhttp-3-13-requires-android-5). If you need an older version than is referenced by this library excluding the transitive dependency and including your own okhttp dependency should work just fine.
+
 ## Version 1.0.0
 
 _2019-05-31_
