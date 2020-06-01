@@ -14,7 +14,7 @@ It supports Thrifty models generated in both `Java` and `Kotlin`.
 Add the library as a dependency to your `build.gradle` to automatically download it from jcenter.
 
 ```groovy
-compile 'co.infinum:retrofit-converter-thrifty:1.0.0'
+compile 'co.infinum:retrofit-converter-thrifty:2.0.0'
 ```
 
 ... and add the converter factory when you create the `Retrofit` object.
@@ -33,8 +33,8 @@ We also maintain a [changelog](CHANGELOG.md).
 In case source files need to be generated from .thrift files using a different version of the thrifty compiler, use these commands:
 
 ```shell
-java -jar thrifty-compiler-1.0.0-all.jar --out=retrofit-converter-thrifty/src/test/java/ --lang=java retrofit-converter-thrifty/src/test/resources/phone.thrift
-java -jar thrifty-compiler-1.0.0-all.jar --out=retrofit-converter-thrifty/src/test/java/ --lang=kotlin --kt-file-per-type retrofit-converter-thrifty/src/test/resources/phone.thrift
+java -jar thrifty-compiler-2.0.1-all.jar --out=retrofit-converter-thrifty/src/test/java/ --lang=java retrofit-converter-thrifty/src/test/resources/phone.thrift
+java -jar thrifty-compiler-2.0.1-all.jar --out=retrofit-converter-thrifty/src/test/java/ --lang=kotlin --kt-file-per-type retrofit-converter-thrifty/src/test/resources/phone.thrift
 
 ```
 
