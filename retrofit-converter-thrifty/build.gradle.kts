@@ -23,13 +23,13 @@ object Versions {
 }
 
 dependencies {
-    compile("com.microsoft.thrifty:thrifty-runtime:${Versions.thrifty_version}")
-    compile("com.microsoft.thrifty:thrifty-runtime-ktx:${Versions.thrifty_version}")
-    compile("com.squareup.okio:okio:${Versions.okio_version}")
-    compile("com.squareup.retrofit2:retrofit:${Versions.retrofit_version}")
-    testCompile("com.squareup.okhttp3:mockwebserver:${Versions.okhttp_version}")
-    testCompile("org.assertj:assertj-core:3.16.1")
-    testCompile("junit:junit:4.13")
+    api("com.microsoft.thrifty:thrifty-runtime:${Versions.thrifty_version}")
+    api("com.microsoft.thrifty:thrifty-runtime-ktx:${Versions.thrifty_version}")
+    api("com.squareup.retrofit2:retrofit:${Versions.retrofit_version}")
+    implementation("com.squareup.okio:okio:${Versions.okio_version}")
+    testImplementation("com.squareup.okhttp3:mockwebserver:${Versions.okhttp_version}")
+    testImplementation("org.assertj:assertj-core:3.16.1")
+    testImplementation("junit:junit:4.13")
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
 }
 
