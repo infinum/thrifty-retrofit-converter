@@ -19,8 +19,8 @@ version = "2.0.0"
 object Versions {
     const val thrifty_version = "2.0.1"
     const val retrofit_version = "2.9.0"
-    const val okhttp_version = "4.7.2"
-    const val okio_version = "2.6.0"
+    const val okhttp_version = "4.9.1"
+    const val okio_version = "2.10.0"
 }
 
 dependencies {
@@ -30,8 +30,8 @@ dependencies {
     implementation("com.squareup.okio:okio:${Versions.okio_version}")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     testImplementation("com.squareup.okhttp3:mockwebserver:${Versions.okhttp_version}")
-    testImplementation("org.assertj:assertj-core:3.16.1")
-    testImplementation("junit:junit:4.13")
+    testImplementation("org.assertj:assertj-core:3.19.0")
+    testImplementation("junit:junit:4.13.2")
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
 }
 
