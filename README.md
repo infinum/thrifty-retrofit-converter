@@ -33,8 +33,9 @@ We also maintain a [changelog](CHANGELOG.md).
 In case source files need to be generated from .thrift files using a different version of the thrifty compiler, use these commands:
 
 ```shell
-java -jar thrifty-compiler-2.0.1-all.jar --out=retrofit-converter-thrifty/src/test/java/ --lang=java retrofit-converter-thrifty/src/test/resources/phone.thrift
-java -jar thrifty-compiler-2.0.1-all.jar --out=retrofit-converter-thrifty/src/test/java/ --lang=kotlin --kt-file-per-type retrofit-converter-thrifty/src/test/resources/phone.thrift
+wget https://repo1.maven.org/maven2/com/microsoft/thrifty/thrifty-compiler/2.1.2/thrifty-compiler-2.1.2-all.jar
+java -jar thrifty-compiler-2.1.2-all.jar --out=retrofit-converter-thrifty/src/test/java/ --lang=java retrofit-converter-thrifty/src/test/resources/phone.thrift
+java -jar thrifty-compiler-2.1.2-all.jar --out=retrofit-converter-thrifty/src/test/kotlin/ --lang=kotlin --kt-file-per-type retrofit-converter-thrifty/src/test/resources/phone.thrift
 
 ```
 

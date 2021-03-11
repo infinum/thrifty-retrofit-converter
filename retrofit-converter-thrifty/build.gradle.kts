@@ -17,7 +17,7 @@ group = "co.infinum"
 version = "2.0.0"
 
 object Versions {
-    const val thrifty_version = "2.0.1"
+    const val thrifty_version = "2.1.2"
     const val retrofit_version = "2.9.0"
     const val okhttp_version = "4.9.1"
     const val okio_version = "2.10.0"
