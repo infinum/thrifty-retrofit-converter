@@ -1,8 +1,9 @@
 import com.novoda.gradle.release.PublishExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("java")
-    kotlin("jvm") version "1.3.71"
+    kotlin("jvm") version "1.4.30"
     id("jacoco")
     id("com.novoda.bintray-release")
 }
@@ -43,6 +44,14 @@ tasks.withType<JacocoReport> {
 tasks {
     check {
         dependsOn(jacocoTestReport)
+    }
+}
+
+// use new JVM IR https://blog.jetbrains.com/kotlin/2021/02/the-jvm-backend-is-in-beta-let-s-make-it-stable-together/
+// TODO remove after it becomes the default in Kotlin 1.5
+tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions {
+        useIR = true
     }
 }
 
