@@ -28,6 +28,7 @@ dependencies {
     api("com.microsoft.thrifty:thrifty-runtime-ktx:${Versions.thrifty_version}")
     api("com.squareup.retrofit2:retrofit:${Versions.retrofit_version}")
     implementation("com.squareup.okio:okio:${Versions.okio_version}")
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
     testImplementation("com.squareup.okhttp3:mockwebserver:${Versions.okhttp_version}")
     testImplementation("org.assertj:assertj-core:3.16.1")
     testImplementation("junit:junit:4.13")
