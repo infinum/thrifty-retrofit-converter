@@ -1,4 +1,4 @@
-package co.infinum.thrifty;
+package com.infinum.thrifty;
 
 import com.microsoft.thrifty.protocol.BinaryProtocol;
 import com.microsoft.thrifty.protocol.CompactProtocol;
