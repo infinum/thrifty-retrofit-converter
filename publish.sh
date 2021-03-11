@@ -17,6 +17,7 @@ set -euo pipefail;
 
 readonly SCRIPT_NAME="$(basename "$0")"
 readonly green="\e[0;32m"
+readonly red="\e[0;31m"
 readonly reset="\e[0m"
 
 if [ $# -lt 1 ]; then
@@ -36,7 +37,10 @@ if [ -n "${2-}" ]; then
 fi
 
 echo -e "${green}Building and uploading release ...${reset}"
-./gradlew clean build publishLibraryPublicationToSonatypeRepository
+./gradlew clean build publishToSonatype
+
+echo -e "${green}Closing sonatype staging repository ...${reset}"
+./gradlew closeSonatypeStagingRepository
 
 echo -e "${green}Pushing version tag ...${reset}"
 git tag -a "${version}" -m "${tag_message}" && \
@@ -49,3 +53,5 @@ sed -E "s/\"com.infinum:retrofit-converter-thrifty:[\.0-9]+\"/\"com.infinum:retr
 # show changes so we know to commit if needed
 echo -e "${green}\nHere's the output of git status:\n${reset}"
 git status
+
+echo -e "${red}\n\nDON'T FORGET to release the artifact on https://oss.sonatype.org/#stagingRepositories !\n${reset}"

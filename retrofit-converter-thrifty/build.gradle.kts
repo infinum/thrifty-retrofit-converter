@@ -9,9 +9,6 @@ plugins {
     id("signing")
 }
 
-group = "com.infinum"
-version = "3.0.0"
-
 java {
     withJavadocJar()
     withSourcesJar()
@@ -62,19 +59,19 @@ tasks.withType<KotlinCompile>().configureEach {
 publishing {
     repositories {
         maven {
-            name = "Sonatype"
-            url = URI.create(project.property("sonatype.url") as String)
+            name = "MavenCentral"
+            url = URI.create(project.property("sonatypeUrl") as String)
             credentials {
-                username = project.property("sonatype.username") as String
-                password = project.property("sonatype.password") as String
+                username = project.property("sonatypeUsername") as String
+                password = project.property("sonatypePassword") as String
             }
         }
     }
     publications {
         create<MavenPublication>("library") {
-            groupId = project.group as String?
+            groupId = rootProject.group as String?
             artifactId = project.name
-            version = project.version as String?
+            version = rootProject.version as String?
 
             from(components["java"])
 

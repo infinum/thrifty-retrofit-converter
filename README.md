@@ -50,9 +50,9 @@ signing.keyId=<GPG_KEY_ID>
 signing.password=<GPG_KEY_PASSWORD>
 signing.secretKeyRingFile=<GPG_SECRING_LOCATION>
 
-sonatype.url=https://oss.sonatype.org/service/local/staging/deploy/maven2/
-sonatype.username=<SONATYPE_USERNAME>
-sonatype.password=<SONATYPE_PASSWORD>
+sonatypeUrl=https://oss.sonatype.org/service/local/staging/deploy/maven2/
+sonatypeUsername=<SONATYPE_USERNAME>
+sonatypePassword=<SONATYPE_PASSWORD>
 ```
 
 To deploy a new version to Maven Central, use `deploy.sh`:
@@ -61,4 +61,4 @@ To deploy a new version to Maven Central, use `deploy.sh`:
 ./publish.sh <artifact version> [optional tag message]
 ```
 
-The publish script will automatically push a tag with the version name and change the version in the README.
+The `publish.sh` script will automatically push a tag with the version name and change the version in the README.
