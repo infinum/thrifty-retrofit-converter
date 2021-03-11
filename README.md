@@ -62,3 +62,5 @@ To deploy a new version to Maven Central, use `deploy.sh`:
 ```
 
 The `publish.sh` script will automatically push a tag with the version name and change the version in the README.
+
+All you need to do after the script runs is to press release in [Sonatype OSS](https://oss.sonatype.org/#stagingRepositories).
