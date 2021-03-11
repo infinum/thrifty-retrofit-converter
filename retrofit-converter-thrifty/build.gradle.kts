@@ -1,20 +1,23 @@
-import com.novoda.gradle.release.PublishExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.net.URI
 
 plugins {
     id("java")
     kotlin("jvm") version "1.4.30"
     id("jacoco")
-    id("com.novoda.bintray-release")
+    id("maven-publish")
+    id("signing")
 }
 
+group = "com.infinum"
+version = "3.0.0"
+
 java {
+    withJavadocJar()
+    withSourcesJar()
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
-
-group = "co.infinum"
-version = "2.0.0"
 
 object Versions {
     const val thrifty_version = "2.1.2"
@@ -56,13 +59,58 @@ tasks.withType<KotlinCompile>().configureEach {
     }
 }
 
-configure<PublishExtension> {
-    userOrg = "infinum"
-    groupId = project.group.toString()
-    artifactId = "retrofit-converter-thrifty"
-    publishVersion = project.version.toString()
-    desc = "Retrofit converter for Thrifty implementation of Apache Thrift"
-    website = "https://github.com/infinum/thrifty-retrofit-converter"
-    repoName = "android"
-    setLicences("Apache-2.0")
+publishing {
+    repositories {
+        maven {
+            name = "Sonatype"
+            url = URI.create(project.property("sonatype.url") as String)
+            credentials {
+                username = project.property("sonatype.username") as String
+                password = project.property("sonatype.password") as String
+            }
+        }
+    }
+    publications {
+        create<MavenPublication>("library") {
+            groupId = project.group as String?
+            artifactId = project.name
+            version = project.version as String?
+
+            from(components["java"])
+
+            pom {
+                name.set("Thrifty Retrofit converter")
+                description.set("Retrofit converter for Thrifty implementation of Apache Thrift")
+                url.set("https://github.com/infinum/thrifty-retrofit-converter")
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("reisub")
+                        name.set("Dino Kovač")
+                        email.set("dino@infinum.com")
+                    }
+                }
+                scm {
+                    connection.set("scm:git:git://github.com/infinum/thrifty-retrofit-converter.git")
+                    developerConnection.set("scm:git:ssh://github.com/infinum/thrifty-retrofit-converter.git")
+                    url.set("https://github.com/infinum/thrifty-retrofit-converter")
+                }
+            }
+        }
+    }
+}
+
+signing {
+    sign(publishing.publications["library"])
+}
+
+tasks.javadoc {
+    if (JavaVersion.current().isJava9Compatible) {
+        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
+    }
 }

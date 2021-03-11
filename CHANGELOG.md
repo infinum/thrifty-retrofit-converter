@@ -1,6 +1,16 @@
 Changelog
 =========
 
+## Version 3.0.0
+
+_2021-03-11_
+
+- use [Thrifty 2.1.2](https://github.com/microsoft/thrifty/blob/master/CHANGELOG.md)
+- use Okio 2.10.0, OkHttp 4.9.1, Kotlin 1.4.30
+- migrate deployment to Maven Central
+- change group id `co.infinum` -> `com.infinum`
+- change package name `co.infinum` -> `com.infinum`
+
 ## Version 2.0.0
 
 _2020-06-01_
