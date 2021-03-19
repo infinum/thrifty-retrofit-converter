@@ -1,4 +1,4 @@
-package co.infinum.thrifty.kotlin
+package com.infinum.thrifty.kotlin
 
 import com.microsoft.thrifty.Adapter
 import com.microsoft.thrifty.Struct

@@ -1,4 +1,4 @@
 @ParametersAreNonnullByDefault
-package co.infinum.thrifty;
+package com.infinum.thrifty;
 
 import javax.annotation.ParametersAreNonnullByDefault;

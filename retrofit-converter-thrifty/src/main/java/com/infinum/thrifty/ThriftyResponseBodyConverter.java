@@ -1,4 +1,4 @@
-package co.infinum.thrifty;
+package com.infinum.thrifty;
 
 import com.microsoft.thrifty.Adapter;
 import com.microsoft.thrifty.StructBuilder;
