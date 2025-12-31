@@ -1,5 +1,13 @@
 # Thrifty Retrofit converter
 
+
+# ⚠️ Deprecated
+
+> [!WARNING]
+> **This library is no longer maintained.**
+> It will not receive any further updates, security patches, or bug fixes. For inquiries (including potential support), please contact us at `opensource@infinum.com`.
+
+
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 A `Retrofit converter` implementation using [Thrifty](https://github.com/Microsoft/thrifty) for
